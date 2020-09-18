@@ -1,0 +1,302 @@
+[
+    {
+        "maltId": "247",
+        "name": "Black Malt",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "650",
+        "name": "Munich Malt",
+        "description": "Munich Malt has a malty sweet flavor characteristic and adds a reddish amber color to the beer. It has enough diastatic power to convert itself, but needs help from another malt, such as 2-row malt, to convert other grains.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "278",
+        "name": "Caramel\/Crystal Malt 30L",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "365",
+        "name": "CaraPils\/Dextrin Malt",
+        "description": "Dextrine malt is a general term for a set of malts, including CaraPils and others, used to increase foam, head retention, sweetness, and body. Dextrine malts contain a lot of dextrins, sugar structures that are resistant to enzyme action that remain in the finished beer.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "234",
+        "name": "Pale Malt",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "862",
+        "name": "Wheat - Torrified",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "724",
+        "name": "Pilsner Malt",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "1935",
+        "name": "Rauchmalz",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "378",
+        "name": "Caramel\/Crystal Malt",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "1950",
+        "name": "Two-Row Barley Malt",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "1922",
+        "name": "Two-Row Pale Malt",
+        "description": "The is the standard starting point for almost all beer recipes. Smooth with a less grainy more moderate flavour.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "865",
+        "name": "Wheat Malt - White",
+        "description": "White wheat gives a malty flavor not available from raw wheat.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "1947",
+        "name": "Barley - Malted",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "1977",
+        "name": "Malted Rye",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "854",
+        "name": "Wheat Malt",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "372",
+        "name": "Carafa III",
+        "description": "Used to intensify aroma and color in dark Munich beers and stouts.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "392",
+        "name": "CaraMunich III",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "839",
+        "name": "Munich Malt - Type I",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "840",
+        "name": "Munich Malt - Type II",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "1936",
+        "name": "Midnight Wheat",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "534",
+        "name": "Barley - Flaked",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "429",
+        "name": "Chocolate Malt",
+        "description": "A dark malt that gives a rich red or brown color and a nutty flavor, used in brown ales, porters, and some stouts.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "246",
+        "name": "Biscuit Malt",
+        "description": "Another Belgian malt, this gives a biscuit like flavor and aroma. Use for English ales, brown ales and porters. Can be used as a substitute for toasted malt.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "541",
+        "name": "CaraMunich 120L",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "792",
+        "name": "Spelt Malt",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "272",
+        "name": "Bonlander",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "385",
+        "name": "Caramel\/Crystal Malt 40L",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "387",
+        "name": "Caramel\/Crystal Malt 80L",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "766",
+        "name": "Rye Malt",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "209",
+        "name": "Aromatic Malt",
+        "description": "Aromatic malt is a kilned barley malt used to give beer a strong, aggressive malt aroma and rich color.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "828",
+        "name": "CaraHell",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "398",
+        "name": "CaraStan",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "753",
+        "name": "Barley - Roasted",
+        "description": "Unmalted and roasted at high temperature to create a burnt, grainy, coffee-like flavor. Imparts a red to deep brown color to beer, and very strong roasted flavor. Use 2-4% in Brown ales to add a nutty flavor, or 3-10% in Porters and Stouts for coffee flavor.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "692",
+        "name": "Oats - Malted",
+        "description": "Adds body, mouth feel and head retention to the beer Creates chill haze in lighter beers, so is primarily used in dark ones.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "370",
+        "name": "Carafa I",
+        "description": "Used to intensify aroma and color in dark Munich beers and stouts.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "386",
+        "name": "Caramel\/Crystal Malt 60L",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "396",
+        "name": "CaraRed",
+        "description": "Carared\u2122 is a trademarked name for a variety of crystal malt designed to add both flavor and a deep red color to beer. Also contributes to head retention.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "626",
+        "name": "Melanoidin Malt",
+        "description": "Aromatic malt from Bamberg, Germany. Promotes a full flavor and rounds off beer color. Promotes deep red color and malty flavor.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "434",
+        "name": "Chocolate Rye Malt",
+        "description": "Primarily used for color and aroma in top-fermented speciality beers.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "1920",
+        "name": "Maris Otter",
+        "description": "Maris Otter is an English thoroughbred and this winter barley variety is still the favored choice of many UK cask ale brewers. In the field, its yield has been surpassed hugely by more modern varieties, so it has to be grown on contract for the maltster each year by selected farmers. The resulting malt is typically described as having a rich, nutty flavor. Performance in the brewhouse is predictable and consistent with excellent run-offs.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "166",
+        "name": "Acidulated Malt",
+        "description": "Lowers mash, wort, and beer pH. Contains 1-2% lactic acid. Enhances enzymatic activity in mash and improves extract efficiency. Lightens color in pale brews. Enhances stability and extends shelf life of finished beer. Promotes well-rounded, complex beer flavor.",
+        "countryOfOrigin": 0
+    },
+    {
+        "maltId": "1924",
+        "name": "CaraMunich",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "481",
+        "name": "Caramel\/Crystal Malt 45L",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "790",
+        "name": "Special B Malt",
+        "description": "Special B refers to a type of dark, flavorful crystal malt traditionally malted in Belgium. In small amounts, it gives a unique flavor to the finished beer that is often compared to raisins or dried fruit.",
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "420",
+        "name": "Munich Wheat",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "552",
+        "name": "Munich Malt - Dark",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "745",
+        "name": "Wheat - Raw",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "632",
+        "name": "Lactose",
+        "description": null,
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "376",
+        "name": "CaraFoam",
+        "description": "Significantly increases foam\/head retention and body of the beer.",
+        "countryOfOrigin": null
+    },
+    {
+        "maltId": "401",
+        "name": "CaraWheat",
+        "description": "Caramel wheat malt, also known by the Weyermann trademarked name Carawheat, is prepared by the same method as traditional barley crystal and caramel malt.",
+        "countryOfOrigin": null
+    }
+]
