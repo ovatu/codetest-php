@@ -1,18 +1,20 @@
 <?php
 
-class Yeast extends CActiveRecord
+class Yeast extends ActiveRecord
 {
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
 
-	public function relations() {
+	public function findWithYeastId($yeastId) {
+		return $this->find('yeastId = :yeastId', [':yeastId' => $yeastId]);
+	}
+
+	public function relations()
+	{
 		return [
-			'lab' => array(self::BELONGS_TO, 'LookupLab', 'Lab'),
-			'form' => array(self::BELONGS_TO, 'LookupYeastForm', 'Lab'),
-			'flocculation' => array(self::BELONGS_TO, 'LookupYeastFlocculation', 'Flocculation'),
-			'strain' => array(self::BELONGS_TO, 'LookupYeastStrain', 'Strain'),
+			'beers' => array(self::MANY_MANY, 'Beer', 'beer_yeast(yeastId, beerId)'),
 		];
 	}
 }

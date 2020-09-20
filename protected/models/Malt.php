@@ -1,16 +1,20 @@
 <?php
 
-class Malt extends CActiveRecord
+class Malt extends ActiveRecord
 {
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
 
-	public function relations() {
+	public function findWithMaltId($maltId) {
+		return $this->find('maltId = :maltId', [':maltId' => $maltId]);
+	}
+
+	public function relations()
+	{
 		return [
-			'maltster' => array(self::BELONGS_TO, 'LookupMaltster', 'Maltster'),
-			'grain' => array(self::BELONGS_TO, 'LookupGrain', 'Grain'),
+			'beers' => array(self::MANY_MANY, 'Beer', 'beer_malt(maltId, beerId)'),
 		];
 	}
 }
