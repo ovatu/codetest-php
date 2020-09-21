@@ -12,5 +12,5 @@ We would like you to showcase your software design experience by exposing this v
 
 1. We would like to see an endpoint to expose the beers table.
 2. The endpoint should include an option to search as well as pagination.
-3. We would like to see at last one write operation, what it does is up to you.
+3. We would like to see at least one write operation, what it does is up to you.
 4. Authentication is not necessary, however if you felt inclined to showcase this, it would be interesting to see.
