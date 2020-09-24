@@ -432,6 +432,7 @@ class CDbConnection extends CApplicationComponent
 		$pdoClass=$this->pdoClass;
 		if(($driver=$this->getDriverName())!==null)
 		{
+			//Need PDO adaptor for sqlite here ???
 			if($driver==='mssql' || $driver==='dblib')
 				$pdoClass='CMssqlPdoAdapter';
 			elseif($driver==='sqlsrv')
