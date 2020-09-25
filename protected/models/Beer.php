@@ -24,6 +24,81 @@ class Beer extends ActiveRecord
 		];
 	}
 
+	public function searchBeerIds($name, $style, $hop, $yeast, $malt, $lastBeerId = null)
+	{
+		$selectFields = ['b.beerId'];
+		$limit = 10;
+
+		$query = Yii::app()->db->createCommand()
+			 ->selectDistinct($selectFields)
+			 ->from('Beer b')
+			 ->leftjoin('Style s', 'b.styleId=s.styleId')
+			 ->leftjoin('Beer_Hop b_h', 'b.beerId = b_h.beerId')
+			 ->leftJoin('Hop h', 'h.hopId = b_h.hopId')
+			 ->leftjoin('Beer_Yeast b_y', 'b.beerId = b_y.beerId')
+			 ->leftJoin('Yeast y', 'y.yeastId = b_y.yeastId')
+			 ->leftjoin('Beer_Malt b_m', 'b.beerId = b_m.beerId')
+			 ->leftJoin('Malt m', 'm.maltId = b_m.maltId')
+			 ->order('b.beerId')
+		 	 ->andWhere('b.beerId IS NOT NULL')
+		 	 ->limit($limit);
+		
+		if($name){
+			$query->andWhere('b.name=:name', [':name'=>$name]);
+		}
+		if($style){
+			$query->andWhere('s.name=:style', [':style'=>$style]);
+		}
+		if($hop){
+			$query->andWhere('h.name = :hop', [':hop' => $hop]);
+		}
+		if($yeast){
+			$query->andWhere('y.name = :yeast', [':yeast' => $yeast]);
+		}
+		if($malt){
+			$query->andWhere('m.name = :malt', [':malt' => $malt]);
+		}
+		if($lastBeerId){
+			$query->andWhere("b.beerId > '$lastBeerId'");
+		}
+
+		$result = $query->query();
+		return $result;
+
+	}
+
+	public function searchBeersByIds($beer_ids)
+	{
+		$selectFields = ['b.beerId',
+			'b.name as beername',
+			'b.styleId',
+			's.name as stylename',
+			'h.hopId',
+			'h.name as hopname',
+			'y.yeastId',
+			'y.name as yeastname',
+			'm.maltId',
+			'm.name as maltname'
+		];
+
+		$query = Yii::app()->db->createCommand()
+			  ->select($selectFields)
+			  ->from('Beer b')
+			  ->leftjoin('Style s', 'b.styleId=s.styleId')
+			  ->leftjoin('Beer_Hop b_h', 'b.beerId = b_h.beerId')
+			  ->leftjoin('Beer_Yeast b_y', 'b.beerId = b_y.beerId')
+			  ->leftjoin('Beer_Malt b_m', 'b.beerId = b_m.beerId')
+			  ->leftJoin('Hop h', 'h.hopId = b_h.hopId')
+			  ->leftJoin('Yeast y', 'y.yeastId = b_y.yeastId')
+			  ->leftJoin('Malt m', 'm.maltId = b_m.maltId')
+		  	  ->order('b.beerId')
+		  	  ->andWhere(['in', 'b.beerId', $beer_ids]);
+		
+		
+		$result = $query->query();
+		return $result;
+	}
+
 	public function hasHop($hop)
 	{
 		foreach ($this->beerHops as $beerHop) {
