@@ -3,7 +3,7 @@
 class SiteController extends CController
 {
 
-    public function actionSearch($name = null,
+    public function actionSearchBeer($name = null,
 	    $style = null, 
 	    $hop = null, 
 	    $yeast = null, 
@@ -14,8 +14,6 @@ class SiteController extends CController
     )
     {
 	//Pagination
-	$message = $firstPage;
-
 	$beers = self::searchBeers($name, $style, $hop, $yeast, $malt, $lastBeerId);
 
 	$this->render('search', compact('beers', 
@@ -26,6 +24,65 @@ class SiteController extends CController
 					'malt', 
 					'firstPage',
 					'message'));
+    }
+
+    public function actionSearch(
+	    $name = null,
+	    $style = null, 
+	    $hop = null, 
+	    $yeast = null, 
+	    $malt = null,
+	    $lastBeerId = null
+    )
+    {
+	    $beers = self::searchBeers($name, $style, $hop, $yeast, $malt, $lastBeerId);
+	    $result = self::formatForRest($beers, $name, $style, $hop, $yeast, $malt);
+	    echo json_encode($result);
+    }
+
+    private static function formatForRest($beers, $name, $style, $hop, $yeast, $malt)
+    {
+	    $lastBeerId = null;
+	    foreach($beers as $k => $beer){
+		$lastBeerId = $k;
+	    }
+
+
+	    $args = [];
+	    $args[] = "lastBeerId=$lastBeerId";
+	    if($name){
+		    $name = urlencode($name);
+		    $args[] = "name=$name";
+	    }
+	    if($style){
+		    $style = urlencode($style);
+		    $args[] = "style=$style";
+	    }
+	    if($hop){
+		    $style = urlencode($hop);
+		    $args[] = "hop=$hop";
+	    }
+	    if($yeast){
+		    $yeast = urlencode($yeast);
+		    $args[] = "yeast=$yeast";
+	    }
+	    if($malt){
+		    $malt = urlencode($malt);
+		    $args[] = "malt=$malt";
+	    }
+	    $args = implode('&', $args);		
+	    $nextPage = "/search?$args";
+
+	    $result = [
+		    'beers' => $beers,
+		    '_links' => [
+			'nextPage' => [
+				'href' => $nextPage,
+			],
+		    ]
+	    ];
+
+	    return $result;
     }
 
     public function actionAddBeer()
@@ -46,6 +103,28 @@ class SiteController extends CController
 
 	$styles = Style::model()->findAll();
 	$this->render('add', compact('styles', 'name', 'style', 'message')); 
+    }
+
+    public function actionAdd()
+    {
+	$message = "";
+
+	$name = isset($_POST['name']) ? $_POST['name'] : null;
+	$style = isset($_POST['style']) ? $_POST['style'] : null;
+
+	if($name && $style){
+		$result = self::addBeer($name, $style);
+		if($result){
+			$message = "Successfully added \"$name\"";
+		} else {
+			$message = "Error: Unable to add beer with name \"$name\"";
+		}
+	} else {
+		$message = "Must include both name and styleId";
+	}
+
+	echo $message;
+
     }
 
     public function actionIndex()

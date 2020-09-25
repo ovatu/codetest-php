@@ -22,7 +22,9 @@ return array(
 			'appendParams'=>false,
 			'rules'=>array(
 				'<_c>/<_a>'=>'<_c>/<_a>',
-				'searchBeer' => 'Site/search',
+				'search' => 'Site/search',
+				'add' => 'Site/add',
+				'searchBeer' => 'Site/searchBeer',
 				'addBeer' => 'Site/addBeer',
 			),
 		),
