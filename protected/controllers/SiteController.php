@@ -123,7 +123,7 @@ class SiteController extends CController
 		$message = "Must include both name and styleId";
 	}
 
-	echo $message;
+	echo json_encode(["message" => $message]);
 
     }
 
