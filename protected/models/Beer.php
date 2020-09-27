@@ -173,16 +173,34 @@ class Beer extends ActiveRecord {
         return $error;
     }
 
+    public function beforeSave()
+    {
+        if (empty($this->getAttribute('beerId'))) {
+            // Generate and set a beerId before inserting.
+            // TODO how to generate a 6 letter primary key that is unique?
+
+        }
+        return true;
+    }
+
     public function rules()
     {
         return array(
             // name is required
             array('name', 'required'),
             // Must be numeric.
-            array('abv,ibu,isOrganic,year', 'numeric'),
+            array('styleId,abv,ibu,isOrganic,year', 'numeric'),
+            // Must be 6 characters
+            array('beerId', 'primarykeylength'),
         );
     }
 
+    function primarykeylength($attribute) {
+        $keyattribute = $this->$attribute;
+        if (isset($keyattribute) && is_string($keyattribute) && strlen($keyattribute) !== 6) {
+            $this->addError($attribute, 'Must be six characters long!');
+        }
+    }
     function numeric($attribute) {
         $numericattribute = $this->$attribute;
         if (isset($numericattribute) && !is_numeric($numericattribute)) {

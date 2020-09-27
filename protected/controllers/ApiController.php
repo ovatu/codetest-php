@@ -25,6 +25,29 @@ class ApiController extends CController
         }
         $this->_sendResponse(200, CJSON::encode($beers), 'application/json');
     }
+    public function actionUpdate()
+    {
+        $beerid = isset($_POST['beerId']) ? $_POST['beerId'] : null;
+        if (!isset($beerid)) {
+            $this->_sendResponse(400, "beerId is required to update a beer");
+        }
+        $beer = Beer::model()->findWithBeerId($beerid);
+        $beer->setAttributes($_POST);
+        $beer->validate();
+        $errors = $beer->getErrors();
+        if ($errors) {
+            $errormessage = "Invalid beer data given! \n";
+            foreach ($errors as $attribute => $error) {
+                $errormessage .= "$attribute is invalid: $error[0]\n";
+            }
+            $this->_sendResponse(400, $errormessage);
+        }
+        $success = $beer->save();
+        if ($success === false) {
+            $this->_sendResponse(500, 'Failed to update beer with name ' . $beer->getAttribute('name'));
+        }
+        $this->_sendResponse(200, 'Successfully update beer with beerId "' . $beerid . '"');
+    }
     public function actionCreate()
     {
         if (!isset($_POST['name'])) {
