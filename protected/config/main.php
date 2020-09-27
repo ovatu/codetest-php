@@ -21,6 +21,7 @@ return array(
 			'urlFormat'=>'path',
 			'appendParams'=>false,
 			'rules'=>array(
+                ['api/fetch', 'pattern'=>'api/beer', 'verb'=>'GET'],
 				'<_c>/<_a>'=>'<_c>/<_a>',
 			),
 		),

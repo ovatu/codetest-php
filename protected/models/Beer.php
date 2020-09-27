@@ -116,6 +116,33 @@ class Beer extends ActiveRecord
 			$beerMalt->delete();
 		}
 	}
+
+    /** Find all beers or use a search query to find based on beer name.
+     * The results are chunked based on $pagesize.
+     * We can return one specific page with the $page param.
+     *
+     * @param string $query a beer name to search for.
+     * @param int    $pagesize the number of results to include in one page.
+     * @param int    $page the specific page we want to return.
+     * @return array|false an array of beers or false if the pagination params are invalid here.
+     */
+    public function findBeersByName($query = '', $pagesize = 10, $page = 1)
+    {
+	    if ($query) {
+	        // Case insensitive search.
+	        $where = "name LIKE '%$query%'";
+            $beers = Beer::findAll($where);
+        } else {
+            $beers = Beer::findAll();
+        }
+	    // Do some pagination for when we have a lot of results.
+        $paginatedbeers = array_chunk($beers, $pagesize);
+	    if (isset($paginatedbeers[$page - 1])) {
+            return array_chunk($beers, $pagesize)[$page - 1];
+        }
+	    // We found beers but the page given is outside the range.
+	    return false;
+    }
 }
 
 class BeerHop extends ActiveRecord
