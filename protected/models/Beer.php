@@ -172,6 +172,24 @@ class Beer extends ActiveRecord {
         }
         return $error;
     }
+
+    public function rules()
+    {
+        return array(
+            // name is required
+            array('name', 'required'),
+            // Must be numeric.
+            array('abv,ibu,isOrganic,year', 'numeric'),
+        );
+    }
+
+    function numeric($attribute) {
+        $numericattribute = $this->$attribute;
+        if (isset($numericattribute) && !is_numeric($numericattribute)) {
+            $this->addError($attribute, 'Must be a numerical attribute!');
+        }
+    }
+
 }
 
 class BeerHop extends ActiveRecord
