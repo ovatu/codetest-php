@@ -5,14 +5,21 @@ class ApiController extends CController
     // Actions
     public function actionFetch()
     {
-        // Get a search query if we have one.
+        // Get a search query and other pagination params if they exist.
         $query = isset($_GET['query']) ? $_GET['query'] : '';
         $pagesize = isset($_GET['pagesize']) ? $_GET['pagesize'] : 10;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        // TODO First check all the params in another function to make sure they're OK.
+
+        $paramscheck = Beer::model()->checkParams($query, $pagesize, $page);
+        if ($paramscheck !== false) {
+            $this->_sendResponse(400, "Incorrect params given: \n" . $paramscheck, 'text/html');
+        }
 
         $beers = Beer::model()->findBeersByName($query, $pagesize, $page);
-        if ($beers === false) {
+        if ($beers === NO_BEER_FOUND) {
+            // Not found.
+            $this->_sendResponse(200, 'No beers found matching your query', 'text/html');
+        } else if ($beers === PAGE_OUT_OF_RANGE) {
             // 406 Not Acceptable for page being outside the range - the server cannot produce a matching response.
             $this->_sendResponse(406, '', 'text/html');
         }
@@ -45,6 +52,9 @@ class ApiController extends CController
             {
                 case 406:
                     $message = 'Found beers but your requested page was outside the range.';
+                    break;
+                case 400:
+                    $message = 'Your request params are malformed or otherwise incorrect.';
                     break;
                 case 401:
                     $message = 'You must be authorized to view this page.';
