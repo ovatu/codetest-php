@@ -48,28 +48,6 @@ class ApiController extends CController
         }
         $this->_sendResponse(200, 'Successfully update beer with beerId "' . $beerid . '"');
     }
-    public function actionCreate()
-    {
-        if (!isset($_POST['name'])) {
-            $this->_sendResponse(400, "Name is required to create a new beer");
-        }
-        $newbeer = new Beer();
-        $newbeer->setAttributes($_POST);
-        $newbeer->validate();
-        $errors = $newbeer->getErrors();
-        if ($errors) {
-            $errormessage = "Invalid beer data given! \n";
-            foreach ($errors as $attribute => $error) {
-                $errormessage .= "$attribute is invalid: $error[0]\n";
-            }
-            $this->_sendResponse(400, $errormessage);
-        }
-        $success = $newbeer->save();
-        if ($success === false) {
-            $this->_sendResponse(500, 'Failed to create beer!');
-        }
-        $this->_sendResponse(200, 'Successfully created beer with name "' . $_POST['name'] . '"');
-    }
     private function _sendResponse($status = 200, $body = '', $content_type = 'text/html')
     {
         // set the status

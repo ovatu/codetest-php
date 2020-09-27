@@ -173,16 +173,6 @@ class Beer extends ActiveRecord {
         return $error;
     }
 
-    public function beforeSave()
-    {
-        if (empty($this->getAttribute('beerId'))) {
-            // Generate and set a beerId before inserting.
-            // TODO how to generate a 6 letter primary key that is unique?
-
-        }
-        return true;
-    }
-
     public function rules()
     {
         return array(
