@@ -3,12 +3,15 @@
 const NO_BEER_FOUND = 'no beer found';
 const PAGE_OUT_OF_RANGE = 'page out of range';
 
-class Beer extends ActiveRecord {
-    public static function model($className = __CLASS__) {
+class Beer extends ActiveRecord
+{
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
-    public function findWithBeerId($beerId) {
+    public function findWithBeerId($beerId)
+    {
         return $this->find('beerId = :beerId', [':beerId' => $beerId]);
 	}
 
