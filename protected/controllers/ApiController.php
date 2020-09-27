@@ -12,20 +12,33 @@ class ApiController extends CController
 
         $paramscheck = Beer::model()->checkParams($query, $pagesize, $page);
         if ($paramscheck !== false) {
-            $this->_sendResponse(400, "Incorrect params given: \n" . $paramscheck, 'text/html');
+            $this->_sendResponse(400, "Incorrect params given: \n" . $paramscheck);
         }
 
         $beers = Beer::model()->findBeersByName($query, $pagesize, $page);
         if ($beers === NO_BEER_FOUND) {
             // Not found.
-            $this->_sendResponse(200, 'No beers found matching your query', 'text/html');
+            $this->_sendResponse(200, 'No beers found matching your query');
         } else if ($beers === PAGE_OUT_OF_RANGE) {
             // 406 Not Acceptable for page being outside the range - the server cannot produce a matching response.
-            $this->_sendResponse(406, '', 'text/html');
+            $this->_sendResponse(406);
         }
-        $this->_sendResponse(200, CJSON::encode($beers));
+        $this->_sendResponse(200, CJSON::encode($beers), 'application/json');
     }
-    private function _sendResponse($status = 200, $body = '', $content_type = 'application/json')
+    public function actionCreate()
+    {
+        if (!isset($_POST['name'])) {
+            $this->_sendResponse(400, "Name is required to create a new beer");
+        }
+        $newbeer = new Beer();
+        $newbeer->setAttributes($_POST, false);
+        $success = $newbeer->save();
+        if ($success === false) {
+            $this->_sendResponse(500, 'Failed to create beer!');
+        }
+        $this->_sendResponse(200, 'Successfully created beer with name "' . $_POST['name'] . '"');
+    }
+    private function _sendResponse($status = 200, $body = '', $content_type = 'text/html')
     {
         // set the status
         $status_header = 'HTTP/1.1 ' . $status . ' ' . $this->_getStatusCodeMessage($status);
