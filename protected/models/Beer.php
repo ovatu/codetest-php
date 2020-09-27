@@ -128,10 +128,11 @@ class Beer extends ActiveRecord
      */
     public function findBeersByName($query = '', $pagesize = 10, $page = 1)
     {
-	    if ($query) {
-	        // Case insensitive search.
-	        $where = "name LIKE '%$query%'";
-            $beers = Beer::findAll($where);
+        if ($query) {
+            // Case insensitive search.
+            $c = new CDbCriteria();
+            $c->addSearchCondition('name', $query);
+            $beers = Beer::findAll($c);
         } else {
             $beers = Beer::findAll();
         }
