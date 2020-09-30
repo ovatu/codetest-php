@@ -2,6 +2,8 @@
 
 const NO_BEER_FOUND = 'no beer found';
 const PAGE_OUT_OF_RANGE = 'page out of range';
+const PAGESIZE_DEFAULT = 10;
+const PAGE_DEFAULT = 1;
 
 class Beer extends ActiveRecord
 {
@@ -128,28 +130,32 @@ class Beer extends ActiveRecord
      * @param string $query a beer name to search for.
      * @param int    $pagesize the number of results to include in one page.
      * @param int    $page the specific page we want to return.
-     * @return array|false an array of beers or false if the pagination params are invalid here.
+     * @return array|string an array of beers or string if we get an error.
      */
-    public function findBeersByName($query = '', $pagesize = 10, $page = 1)
+    public function findBeersByName($query = '', $pagesize = PAGESIZE_DEFAULT, $page = PAGE_DEFAULT)
     {
         if ($query) {
             // Case insensitive search.
             $c = new CDbCriteria();
-            $c->addSearchCondition('name', $query);
-            $beers = Beer::findAll($c);
+            $c->addSearchCondition($this->getTableAlias() . '.name', $query);
+            // TODO search the names and descriptions of the hops, malts, yeasts too.
+            $beers = $this->findAll($c);
         } else {
             $beers = Beer::findAll();
         }
-        // Do some pagination for when we have a lot of results.
-        $paginatedbeers = array_chunk($beers, $pagesize);
-        if (empty($paginatedbeers)) {
+        if (empty($beers)) {
             return NO_BEER_FOUND;
         }
-        if (isset($paginatedbeers[$page - 1])) {
-            return array_chunk($beers, $pagesize)[$page - 1];
+        $processedbeers = [];
+        foreach ($beers as $beer) {
+            $hops = $beer->hops;
+            $yeast = $beer->yeasts;
+            $malt = $beer->malts;
+            $attributes = $beer->getAttributes();
+            $processedbeers[] = compact('attributes', 'hops', 'yeast', 'malt');
         }
-        // We found beers but the page given is outside the range.
-        return PAGE_OUT_OF_RANGE;
+        // Do some pagination for when we have a lot of results.
+        return Pagination::paginate($processedbeers, $pagesize, $page);
     }
 
     /**

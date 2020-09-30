@@ -17,13 +17,13 @@ class ApiController extends CController
 
         $beers = Beer::model()->findBeersByName($query, $pagesize, $page);
         if ($beers === NO_BEER_FOUND) {
-            // Not found.
-            $this->_sendResponse(200, 'No beers found matching your query');
+            // 406 Not Acceptable after performing server-driven content negotiation, doesn't find any content that conforms to the criteria.
+            $this->_sendResponse(406, 'No beers found matching your query');
         } else if ($beers === PAGE_OUT_OF_RANGE) {
             // 406 Not Acceptable for page being outside the range - the server cannot produce a matching response.
-            $this->_sendResponse(406);
+            $this->_sendResponse(406, 'Found beers but your page was out of range');
         }
-        $this->_sendResponse(200, CJSON::encode($beers), 'application/json');
+        $this->_sendResponse(200, CJSON::encode($beers));
     }
     public function actionUpdate()
     {
@@ -48,7 +48,7 @@ class ApiController extends CController
         }
         $this->_sendResponse(200, 'Successfully update beer with beerId "' . $beerid . '"');
     }
-    private function _sendResponse($status = 200, $body = '', $content_type = 'text/html')
+    private function _sendResponse($status = 200, $body = '', $content_type = 'application/json')
     {
         // set the status
         $status_header = 'HTTP/1.1 ' . $status . ' ' . $this->_getStatusCodeMessage($status);
