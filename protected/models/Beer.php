@@ -158,30 +158,6 @@ class Beer extends ActiveRecord
         return Pagination::paginate($processedbeers, $pagesize, $page);
     }
 
-    /**
-     * Check if the given params are correctly formed and otherwise sane.
-     *
-     * @return string|bool false if the params are ok, a string containing an error message otherwise.
-     */
-    public function checkParams($query, $pagesize, $page) {
-        // Return a detailed error message when we've given incorrect params.
-        $error = false;
-
-        // First check pagesize.
-        if (!is_numeric($pagesize)) {
-            $error .= "Pagesize must be a number\n";
-        } else if ($pagesize < 1) {
-            $error .= "Pagesize must be greater than zero.\n";
-        }
-        // Check page.
-        if (!is_numeric($page)) {
-            $error .= "Page must be a number.\n";
-        } else if ($page < 1) {
-            $error .= "Page must be greater than zero.\n";
-        }
-        return $error;
-    }
-
     public function rules()
     {
         return array(

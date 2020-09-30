@@ -7,10 +7,10 @@ class ApiController extends CController
     {
         // Get a search query and other pagination params if they exist.
         $query = isset($_GET['query']) ? $_GET['query'] : '';
-        $pagesize = isset($_GET['pagesize']) ? $_GET['pagesize'] : 10;
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $pagesize = isset($_GET['pagesize']) ? $_GET['pagesize'] : PAGESIZE_DEFAULT;
+        $page = isset($_GET['page']) ? $_GET['page'] : PAGE_DEFAULT;
 
-        $paramscheck = Beer::model()->checkParams($query, $pagesize, $page);
+        $paramscheck = Pagination::checkPageParams($pagesize, $page);
         if ($paramscheck !== false) {
             $this->_sendResponse(400, "Incorrect params given: \n" . $paramscheck);
         }
