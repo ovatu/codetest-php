@@ -1,6 +1,5 @@
 <?php
 
-const NO_BEER_FOUND = 'no beer found';
 const PAGE_OUT_OF_RANGE = 'page out of range';
 const PAGESIZE_DEFAULT = 10;
 const PAGE_DEFAULT = 1;
@@ -130,32 +129,58 @@ class Beer extends ActiveRecord
      * @param string $query a beer name to search for.
      * @param int    $pagesize the number of results to include in one page.
      * @param int    $page the specific page we want to return.
-     * @return array|string an array of beers or string if we get an error.
+     * @return array an array of beers and pagination data.
      */
     public function findBeersByName($query = '', $pagesize = PAGESIZE_DEFAULT, $page = PAGE_DEFAULT)
     {
-        if ($query) {
-            // Case insensitive search.
-            $c = new CDbCriteria();
-            $c->addSearchCondition($this->getTableAlias() . '.name', $query);
-            // TODO search the names and descriptions of the hops, malts, yeasts too.
-            $beers = $this->findAll($c);
-        } else {
-            $beers = Beer::findAll();
+        // Case insensitive search.
+        $c = new CDbCriteria();
+        $c->addSearchCondition($this->getTableAlias() . '.name', $query);
+        // TODO search the names and descriptions of the hops, malts, yeasts too.
+
+        // Separate query for count so that we don't have to return all data all the time.
+        $totalitemcount = (int)$this->count($c);
+        if ($totalitemcount === 0) {
+            $returndata['beers'] = [];
+            $returndata['pagination'] = [
+                'totalitems' => $totalitemcount,
+                'page' => $page,
+                'pagesize' => $pagesize,
+                'hasnextpage' => false,
+            ];
+            return $returndata; // We can return early here and save a query, no items found.
         }
-        if (empty($beers)) {
-            return NO_BEER_FOUND;
+
+        $pagecount = $totalitemcount / $pagesize;
+        // Check if page is out of range and then throw exception which is caught in controller.
+        if ($pagecount < $page - 1) {
+            throw new CHttpException(406, 'Page out of range');
         }
+
+        // Paginate in the query, only returning the results we need.
+        $c->offset = (int)$page - 1; // Offset starts at zero.
+        $c->limit = (int)$pagesize;
+        $beers = $this->with('hops')
+                      ->with('yeasts')
+                      ->with('malts')
+                      ->findAll($c);
+
         $processedbeers = [];
         foreach ($beers as $beer) {
-            $hops = $beer->hops;
-            $yeast = $beer->yeasts;
-            $malt = $beer->malts;
-            $attributes = $beer->getAttributes();
-            $processedbeers[] = compact('attributes', 'hops', 'yeast', 'malt');
+            $beerdata = $beer->getAttributes();
+            $beerdata['hops'] = $beer->hops;
+            $beerdata['malts'] = $beer->malts;
+            $beerdata['yeasts'] = $beer->yeasts;
+            $processedbeers[] = $beerdata;
         }
-        // Do some pagination for when we have a lot of results.
-        return Pagination::paginate($processedbeers, $pagesize, $page);
+        $returndata['beers'] = $processedbeers;
+        $returndata['pagination'] = [
+            'totalitems' => $totalitemcount,
+            'page' => $page,
+            'pagesize' => $pagesize,
+            'hasnextpage' => $pagecount > $page, // Can be useful when deciding to render next page button.
+        ];
+        return $returndata;
     }
 
     public function rules()

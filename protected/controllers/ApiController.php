@@ -15,24 +15,33 @@ class ApiController extends CController
             $this->_sendResponse(400, "Incorrect params given: \n" . $paramscheck);
         }
 
-        $beers = Beer::model()->findBeersByName($query, $pagesize, $page);
-        if ($beers === NO_BEER_FOUND) {
-            // 406 Not Acceptable after performing server-driven content negotiation, doesn't find any content that conforms to the criteria.
-            $this->_sendResponse(406, 'No beers found matching your query');
-        } else if ($beers === PAGE_OUT_OF_RANGE) {
+        try {
+            $beerdata = Beer::model()->findBeersByName($query, $pagesize, $page);
+        }
+        catch (CHttpException $e ) {
             // 406 Not Acceptable for page being outside the range - the server cannot produce a matching response.
             $this->_sendResponse(406, 'Found beers but your page was out of range');
         }
-        $this->_sendResponse(200, CJSON::encode($beers));
+
+        if (empty($beerdata['beers'])) {
+            // 406 Not Acceptable after performing server-driven content negotiation, doesn't find any content that conforms to the criteria.
+            $this->_sendResponse(406, 'No beers found matching your query');
+        }
+
+        $this->_sendResponse(200, CJSON::encode($beerdata));
     }
     public function actionUpdate()
     {
-        $beerid = isset($_POST['beerId']) ? $_POST['beerId'] : null;
+        // Use PUT instead of POST because it's idempotent which makes sense here.
+        $rawdata = file_get_contents('php://input');
+        mb_parse_str($rawdata, $result);
+        $beerid = $result['beerId'] ?? null;
+
         if (!isset($beerid)) {
             $this->_sendResponse(400, "beerId is required to update a beer");
         }
         $beer = Beer::model()->findWithBeerId($beerid);
-        $beer->setAttributes($_POST);
+        $beer->setAttributes($result);
         $beer->validate();
         $errors = $beer->getErrors();
         if ($errors) {
@@ -44,9 +53,13 @@ class ApiController extends CController
         }
         $success = $beer->save();
         if ($success === false) {
-            $this->_sendResponse(500, 'Failed to update beer with name ' . $beer->getAttribute('name'));
+            $this->_sendResponse(500, 'Failed to update beer with beerId ' . $beer->getAttribute('beerId'));
         }
-        $this->_sendResponse(200, 'Successfully update beer with beerId "' . $beerid . '"');
+        $message = CJSON::encode([
+                                     'success' => $success,
+                                     'updatedbeer' => $beer->getAttributes(),
+                                 ]);
+        $this->_sendResponse(200, $message);
     }
     private function _sendResponse($status = 200, $body = '', $content_type = 'application/json')
     {

@@ -22,7 +22,7 @@ return array(
 			'appendParams'=>false,
 			'rules'=>array(
                 ['api/fetch', 'pattern'=>'api/beer', 'verb'=>'GET'],
-                ['api/update', 'pattern'=>'api/beer', 'verb'=>'POST'],
+                ['api/update', 'pattern'=>'api/beer', 'verb'=>'PUT'], // PUT makes more sense for this write operation.
 				'<_c>/<_a>'=>'<_c>/<_a>',
 			),
 		),
