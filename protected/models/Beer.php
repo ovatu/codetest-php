@@ -1,6 +1,5 @@
 <?php
 
-const PAGE_OUT_OF_RANGE = 'page out of range';
 const PAGESIZE_DEFAULT = 10;
 const PAGE_DEFAULT = 1;
 
@@ -11,10 +10,9 @@ class Beer extends ActiveRecord
         return parent::model($className);
     }
 
-    public function findWithBeerId($beerId)
-    {
+    public function findWithBeerId($beerId) {
         return $this->find('beerId = :beerId', [':beerId' => $beerId]);
-	}
+    }
 
 	public function relations()
 	{
@@ -182,32 +180,6 @@ class Beer extends ActiveRecord
         ];
         return $returndata;
     }
-
-    public function rules()
-    {
-        return array(
-            // name is required
-            array('name', 'required'),
-            // Must be numeric.
-            array('styleId,abv,ibu,isOrganic,year', 'numeric'),
-            // Must be 6 characters
-            array('beerId', 'primarykeylength'),
-        );
-    }
-
-    function primarykeylength($attribute) {
-        $keyattribute = $this->$attribute;
-        if (isset($keyattribute) && is_string($keyattribute) && strlen($keyattribute) !== 6) {
-            $this->addError($attribute, 'Must be six characters long!');
-        }
-    }
-    function numeric($attribute) {
-        $numericattribute = $this->$attribute;
-        if (isset($numericattribute) && !is_numeric($numericattribute)) {
-            $this->addError($attribute, 'Must be a numerical attribute!');
-        }
-    }
-
 }
 
 class BeerHop extends ActiveRecord

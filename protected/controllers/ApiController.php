@@ -63,27 +63,19 @@ class ApiController extends CController
     }
     private function _sendResponse($status = 200, $body = '', $content_type = 'application/json')
     {
-        // set the status
         $status_header = 'HTTP/1.1 ' . $status . ' ' . $this->_getStatusCodeMessage($status);
         header($status_header);
-        // and the content type
         header('Content-type: ' . $content_type);
 
-        // pages with body are easy
         if($body != '')
         {
-            // send the body
+            // Send the body.
             echo $body;
         }
-        // we need to create the body if none is passed
+        // Create the body if none is passed.
         else
         {
-            // create some body messages
             $message = '';
-
-            // this is purely optional, but makes the pages a little nicer to read
-            // for your users.  Since you won't likely send a lot of different status codes,
-            // this also shouldn't be too ponderous to maintain
             switch($status)
             {
                 case 406:
@@ -112,9 +104,6 @@ class ApiController extends CController
     }
     private function _getStatusCodeMessage($status)
     {
-        // these could be stored in a .ini file and loaded
-        // via parse_ini_file()... however, this will suffice
-        // for an example
         $codes = Array(
             200 => 'OK',
             400 => 'Bad Request',
